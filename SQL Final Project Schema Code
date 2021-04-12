@@ -1,8 +1,8 @@
 # Table 1: references main users table
 CREATE TABLE countryCode_Country (
-	country_id	  int,
-  countryCode   char(2), 
-	country       varchar(50) UNIQUE NOT NULL,
+  	country_id	int,
+  	countryCode   	char(2), 
+	country       	varchar(50) UNIQUE NOT NULL,
 	PRIMARY KEY (country_id)
 );
 
@@ -12,7 +12,7 @@ CREATE TABLE Users_Basic_Information (
 	gender	        char(1) CHECK (gender in ('F', 'M')), 
 	country_id      int, 
 	language        char(2) CHECK (language in ('de', 'en', 'es', 'fr', 'it')), 
-	civilityTitle		varchar(4) CHECK (civilityTitle in ('mr', 'mrs', 'miss')), 
+	civilityTitle	varchar(4) CHECK (civilityTitle in ('mr', 'mrs', 'miss')), 
 	PRIMARY KEY (user_id),
 	FOREIGN KEY (country_id) REFERENCES countryCode_Country
 );
@@ -38,10 +38,10 @@ CREATE TABLE Users_Apptype (
 
 # Table 5: references main users table
 CREATE TABLE Users_Sales (
-	user_id           serial, 
-	topSellerYN		    char(1) CHECK (topSellerYN in ('Y', 'N')),
-	productsListed    int,
-	productsSold      int,
+	user_id           	serial, 
+	topSellerYN		char(1) CHECK (topSellerYN in ('Y', 'N')),
+	productsListed    	int,
+	productsSold      	int,
 	productsPassRate	numeric CHECK (productsPassRate <= 100),
 	PRIMARY KEY (user_id),
 	FOREIGN KEY (user_id) REFERENCES Users_Basic_Information
@@ -59,9 +59,9 @@ CREATE TABLE Users_Purchases (
 
 # Table 7: references main users table
 CREATE TABLE Seniority (
-	user_id             serial, 
-	seniorityDays       int,
-	seniorityMonths     numeric(5,2),
+	user_id             	serial, 
+	seniorityDays       	int,
+	seniorityMonths     	numeric(5,2),
 	daysSinceLastLogin	int,
 	PRIMARY KEY (user_id),
 	FOREIGN KEY (user_id) REFERENCES Users_Basic_Information
@@ -79,8 +79,8 @@ CREATE TABLE Country_Buyers (
 
 # Table 9: references sellers table
 CREATE TABLE Country_Sellers (
-  country_id              int, 
-  sex 	                  varchar(7), 
+  	country_id              int, 
+  	sex 	           	varchar(7), 
 	sellers	                int,
 	meanSellerPassRate      numeric, 
 	totalProductsSold       int, 
@@ -91,10 +91,10 @@ CREATE TABLE Country_Sellers (
 
 # Table 10: references sellers table
 CREATE TABLE Country_Social_Account (
-  country_id        int, 
-  sex 	            varchar(7), 
-	meanFollowers     numeric, 
-	meanFollowing     numeric, 
+  	country_id		int, 
+  	sex 	   		varchar(7), 
+	meanFollowers   	numeric, 
+	meanFollowing   	numeric, 
 	PRIMARY KEY (country_id, sex),
 	FOREIGN KEY (country_id) REFERENCES countryCode_Country
 );
@@ -104,7 +104,7 @@ CREATE TABLE Country_Topsellers (
 	country_id              int, 
 	topSellers              int, 
 	topSellerRatio          numeric,
-	topTotalProductsSold	  int,
+	topTotalProductsSold	int,
 	topTotalProductsListed	int,
 	PRIMARY KEY (country_id),
 	FOREIGN KEY (country_id) REFERENCES countryCode_Country
@@ -112,11 +112,11 @@ CREATE TABLE Country_Topsellers (
 
 # Table 12: references countries sellers table
 CREATE TABLE Country_Topsellers_Social_Media (
-	country_id            int, 
-	meanOfflineDays       numeric, 
-	topMeanOfflineDays    numeric,
-	topMeanFollowers	    numeric,
-	topMeanFollowing	    numeric, 
+	country_id            	int, 
+	meanOfflineDays       	numeric, 
+	topMeanOfflineDays    	numeric,
+	topMeanFollowers	numeric,
+	topMeanFollowing	numeric, 
 	PRIMARY KEY (country_id),
 	FOREIGN KEY (country_id) REFERENCES countryCode_Country
 );
@@ -126,8 +126,8 @@ CREATE TABLE Conversion_Buyer_Wishlist_Likes (
 	country_id              int, 
 	boughtPerWishlistRatio  numeric,
 	boughtPerLikeRatio      numeric, 
-	TotalProductsWished     numeric,
-	TotalProductsLiked	    numeric,
+	TotalProductsWished	numeric,
+	TotalProductsLiked    	numeric,
 	PRIMARY KEY (country_id),
 	FOREIGN KEY (country_id) REFERENCES countryCode_Country
 );
