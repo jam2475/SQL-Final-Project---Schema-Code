@@ -1,0 +1,158 @@
+# Table 1: references main users table
+CREATE TABLE countryCode_Country (
+	country_id	  int,
+  countryCode   char(2), 
+	country       varchar(50) UNIQUE NOT NULL,
+	PRIMARY KEY (country_id)
+);
+
+# Table 2: references main users table
+CREATE TABLE Users_Basic_Information (
+	user_id         serial, 
+	gender	        char(1) CHECK (gender in ('F', 'M')), 
+	country_id      int, 
+	language        char(2) CHECK (language in ('de', 'en', 'es', 'fr', 'it')), 
+	civilityTitle		varchar(4) CHECK (civilityTitle in ('mr', 'mrs', 'miss')), 
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
+# Table 3: references main users table
+CREATE TABLE Users_Social_Account (
+	user_id               serial, 
+	socialNbFollowers     int,
+	socialNbFollows	      int, 
+	hasProfilePicture     varchar(5) CHECK (hasProfilePicture in ('FALSE', 'TRUE')),
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES Users_Basic_Information
+);
+
+# Table 4: references main users table
+CREATE TABLE Users_Apptype (
+	user_id       serial, 
+	hasAnyApp     varchar(5) CHECK (hasAnyApp in ('FALSE', 'TRUE')),
+	appType	      varchar(7) CHECK (appType in ('android', 'ios', 'no app')), 
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES Users_Basic_Information
+);
+
+# Table 5: references main users table
+CREATE TABLE Users_Sales (
+	user_id           serial, 
+	topSellerYN		    char(1) CHECK (topSellerYN in ('Y', 'N')),
+	productsListed    int,
+	productsSold      int,
+	productsPassRate	numeric CHECK (productsPassRate <= 100),
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES Users_Basic_Information
+);
+
+# Table 6: references main users table
+CREATE TABLE Users_Purchases (
+	user_id               serial, 
+	socialProductsLiked   int,
+	productsWished        int,
+	productsBought        int,
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES Users_Basic_Information
+);
+
+# Table 7: references main users table
+CREATE TABLE Seniority (
+	user_id             serial, 
+	seniorityDays       int,
+	seniorityMonths     numeric(5,2),
+	daysSinceLastLogin	int,
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES Users_Basic_Information
+);
+
+# Table 8: references buyers table
+CREATE TABLE Country_Buyers (
+	country_id              int, 
+	buyers	                int,
+	topBuyers               int, 
+	totalProductsBought     int, 
+	PRIMARY KEY (country_id),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
+# Table 9: references sellers table
+CREATE TABLE Country_Sellers (
+  country_id              int, 
+  sex 	                  varchar(7), 
+	sellers	                int,
+	meanSellerPassRate      numeric, 
+	totalProductsSold       int, 
+	totalProductsListed     int, 
+	PRIMARY KEY (country_id, sex),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
+# Table 10: references sellers table
+CREATE TABLE Country_Social_Account (
+  country_id        int, 
+  sex 	            varchar(7), 
+	meanFollowers     numeric, 
+	meanFollowing     numeric, 
+	PRIMARY KEY (country_id, sex),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
+# Table 11: references countries sellers table
+CREATE TABLE Country_Topsellers (
+	country_id              int, 
+	topSellers              int, 
+	topSellerRatio          numeric,
+	topTotalProductsSold	  int,
+	topTotalProductsListed	int,
+	PRIMARY KEY (country_id),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
+# Table 12: references countries sellers table
+CREATE TABLE Country_Topsellers_Social_Media (
+	country_id            int, 
+	meanOfflineDays       numeric, 
+	topMeanOfflineDays    numeric,
+	topMeanFollowers	    numeric,
+	topMeanFollowing	    numeric, 
+	PRIMARY KEY (country_id),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
+# Table 13: references buyers table
+CREATE TABLE Conversion_Buyer_Wishlist_Likes (
+	country_id              int, 
+	boughtPerWishlistRatio  numeric,
+	boughtPerLikeRatio      numeric, 
+	TotalProductsWished     numeric,
+	TotalProductsLiked	    numeric,
+	PRIMARY KEY (country_id),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
+# Table 14: references buyers and sellers table
+CREATE TABLE Country_Female_Users (
+	country_id            int, 
+	femaleBuyers          int,
+	topFemaleBuyers       int, 
+	femaleBuyersRatio     numeric,
+	femaleSellers         int, 
+	topFemaleSellers      int,
+	PRIMARY KEY (country_id),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
+# Table 15: references buyers and sellers table
+CREATE TABLE Country_Male_Users (
+	country_id        int, 
+	maleBuyers        int,
+	topMaleBuyers     int, 
+	maleBuyersRatio   numeric,
+	maleSellers       int, 
+	topMaleSellers    int,
+	PRIMARY KEY (country_id),
+	FOREIGN KEY (country_id) REFERENCES countryCode_Country
+);
+
